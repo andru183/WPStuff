@@ -42,7 +42,7 @@ public class HTTPGetStuff  extends AsyncTask{
     }
 
 
-    public String[] forkGetCats()
+    public void forkGetCats()
     {
 
         new Thread(new Runnable() {
@@ -54,7 +54,7 @@ public class HTTPGetStuff  extends AsyncTask{
 
     }
 
-    public String[] getCats() {
+    public String getCats() {
         URL url = null;
         StringBuilder sb = new StringBuilder();
         try {
@@ -78,7 +78,7 @@ public class HTTPGetStuff  extends AsyncTask{
                 sb.append(line + "\n");
             }
             is.close();
-
+            Log.e("andru183", sb.toString());
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -87,7 +87,7 @@ public class HTTPGetStuff  extends AsyncTask{
         }
 
 
-        return sb.toString().split(",");
+        return sb.toString();
     }
 
 }
