@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,36 +28,33 @@ public class CreateCategories extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.catcreationpane);
+        setContentView(R.layout.createcategories);
 
-        textView = (TextView) findViewById(R.id.textView);
 
-        textView.setText("w");
+        Button button = (Button) findViewById(R.id.submitCatButton);
+        dropdown = (Spinner) findViewById(R.id.countryspinner);
+        final EditText countryEditTextBox = (EditText) findViewById(R.id.CountryEditTextBox);
+        final EditText townEditTextBox = (EditText) findViewById(R.id.townEditTextBoxt);
 
         final HTTPGetStuff httpGetStuff = new HTTPGetStuff();
-
-        Button button = (Button) findViewById(R.id.button);
         items = new String[]{""};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
 
 
-dropdown = (Spinner) findViewById(R.id.countryspinner);
+
         dropdown.setAdapter(adapter);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshSpinner();
+                httpGetStuff.createCats(countryEditTextBox.getText().toString(), townEditTextBox.getText().toString());
             }
         });
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-
-
                 String[] temp = httpGetStuff.getCats().split(",");
-
                 items = new String[temp.length];
                 items[0] = "New";
 
@@ -64,8 +62,6 @@ dropdown = (Spinner) findViewById(R.id.countryspinner);
                 {
                     items[i] = temp[i-1];
                 }
-
-
 
                 runOnUiThread(new Runnable() {
                     public void run()
@@ -76,7 +72,6 @@ dropdown = (Spinner) findViewById(R.id.countryspinner);
 
             }
         }).start();
-
 
     }
 
